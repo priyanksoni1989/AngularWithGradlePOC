@@ -1,0 +1,74 @@
+apply plugin: "java"
+apply plugin: "idea"
+apply plugin: "maven"
+apply plugin: "groovy"
+apply plugin: "eclipse"
+apply plugin: "eclipse-wtp"
+apply plugin: "application"
+apply plugin: "war"
+apply plugin: 'distribution'
+
+group = "com.angular.demo"
+version = "1.0-SNAPSHOT"
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['com.angular.demo']
+            exclude 'src/resources/AngularPOCUI/'
+        }
+        resources {
+
+           doLast() {
+               println "Source Sets Process Resources"
+               srcDirs =['src.main.resources']
+               exclude("${projectDir}/src/main/resources/AngularPOCUI/")
+               include ("${projectDir}/src/main/resources/public/")
+               println "End Execution resources"
+           }
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+}
+
+task cleanAngular(type: Delete) {
+    delete "${projectDir}/src/main/resources/public/"
+}
+
+//processResources {
+//    println "Source Sets Process Resources"
+//    //exclude "${projectDir}/src/main/resources/AngularPOCUI/"
+//    include "${projectDir}/src/main/resources/public/"
+//    println "End Execution resources"
+//}
+
+
+task buildAngular(type: Exec) {
+    workingDir "${projectDir}/src/main/resources/AngularPOCUI/"
+    if (System.getProperty('os.name').toLowerCase().contains('windows')) {
+        executable = "ng.cmd"
+        args = ["build"]
+    } else {
+        executable = "ng"
+        args = ["build"]
+    }
+    dependsOn("processResources")
+}
+
+clean.dependsOn("cleanAngular")
+build.dependsOn("buildAngular")
+//tasks  register("processResources")
+
+jar {
+    exclude('${projectDir}/src/main/resources/AngularPOCUI/')
+    include('${projectDir}/src/main/resources/public/')
+}
