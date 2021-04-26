@@ -7,6 +7,7 @@ apply plugin: "eclipse-wtp"
 apply plugin: "application"
 apply plugin: "war"
 apply plugin: 'distribution'
+apply plugin: "base"
 
 group = "com.angular.demo"
 version = "1.0-SNAPSHOT"
@@ -16,18 +17,13 @@ targetCompatibility = "1.8"
 sourceSets {
     main {
         java {
-            srcDirs = ['com.angular.demo']
+            srcDirs = ['src/java']
             exclude 'src/resources/AngularPOCUI/'
         }
         resources {
-
-           doLast() {
-               println "Source Sets Process Resources"
-               srcDirs =['src.main.resources']
-               exclude("${projectDir}/src/main/resources/AngularPOCUI/")
-               include ("${projectDir}/src/main/resources/public/")
-               println "End Execution resources"
-           }
+           srcDirs =['src/resources']
+           exclude("${projectDir}/src/main/resources/AngularPOCUI/")
+           include ("${projectDir}/src/main/resources/public/")
         }
     }
 }
@@ -45,12 +41,15 @@ task cleanAngular(type: Delete) {
 }
 
 //processResources {
-//    println "Source Sets Process Resources"
-//    //exclude "${projectDir}/src/main/resources/AngularPOCUI/"
-//    include "${projectDir}/src/main/resources/public/"
-//    println "End Execution resources"
+//
 //}
 
+task copyResources(type: Copy) {
+    println "Process  Resources"
+    from "${projectDir}/src/main/resources/public/"
+    into "${projectDir}/build/resources/public/"
+    println "End process resources"
+}
 
 task buildAngular(type: Exec) {
     workingDir "${projectDir}/src/main/resources/AngularPOCUI/"
@@ -66,9 +65,11 @@ task buildAngular(type: Exec) {
 
 clean.dependsOn("cleanAngular")
 build.dependsOn("buildAngular")
-//tasks  register("processResources")
+build.dependsOn("copyResources")
 
 jar {
-    exclude('${projectDir}/src/main/resources/AngularPOCUI/')
-    include('${projectDir}/src/main/resources/public/')
+    doLast{
+        exclude('${projectDir}/src/main/resources/AngularPOCUI/')
+        include('${projectDir}/src/main/resources/public/')
+    }
 }
