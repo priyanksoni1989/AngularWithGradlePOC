@@ -1,4 +1,4 @@
-package com.angular.demo;
+package com.conflux.fron;
 
 public class HelloTest {
 }

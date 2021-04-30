@@ -49,6 +49,8 @@ repositories {
 }
 
 dependencies {
+    compile 'org.springframework.boot:spring-boot'
+    compile 'org.springframework.boot:spring-boot-starter'
     compile 'org.springframework.boot:spring-boot-starter-data-rest'
     compile 'org.springframework.session:spring-session-core'
 }
@@ -78,19 +80,6 @@ build {
     }
 }
 
-//jar {
-//    from ("${buildDir}/resources/public") {
-//        into("META_INF/resources/public")
-//    }
-//    manifest {
-//        attributes(
-//          'Implementation-Title': 'Analytics Library',
-//            'Implementation-Version': '1.2',
-//            'Manifest-Version': '1.0',
-//            'Main-Class': 'com.angular.demo.Hello'
-//    )}
-//}
-
 jar {
     archiveName("AngularGradlePOC")
     exclude("*.jar")
@@ -108,30 +97,3 @@ jar {
             'Main-Class': 'com.angular.demo.Hello'
         )}
 }
-
-//task cleanAngular(type: Delete) {
-//  delete "${projectDir}/src/main/resources/public/"
-//}
-//clean.dependsOn("cleanAngular")
-
-
-//task copyResources(type: Copy) {
-//    from "${projectDir}/src/main/resources/public/"
-//    into "${projectDir}/build/resources/public/"
-//}
-
-//task buildAngular(type: Exec) {
-//    workingDir "${projectDir}/src/main/resources/AngularPOCUI/"
-//    if (System.getProperty('os.name').toLowerCase().contains('windows')) {
-//        executable = "ng.cmd"
-//        args = ["build"]
-//    } else {
-//        executable = "ng"
-//        args = ["build"]
-//    }
-//}
-
-//task cleanAngular(type: Delete) {
-//  delete "${projectDir}/src/main/resources/public/"
-//}
-//clean.dependsOn("cleanAngular")
