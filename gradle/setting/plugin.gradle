@@ -1,0 +1,49 @@
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'application'
+apply plugin: 'base'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = "com.angular.demo"
+version = "1.0-SNAPSHOT"
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+mainClassName = "com.angular.demo.Application"
+
+sourceSets {
+    main {
+        java {
+            srcDirs =["src/main/java"]
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+            exclude "AngularPOCUI"
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+
+buildscript {
+    ext {
+        springVersion = "2.4.4"
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springVersion}")
+    }
+}
+
+repositories {
+    mavenCentral()
+}

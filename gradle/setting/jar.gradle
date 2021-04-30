@@ -1,0 +1,17 @@
+jar {
+    archiveName("AngularGradlePOC")
+    exclude("*.jar")
+    exclude("lib")
+    processResources {
+        from ("resources/public") into("META_INF/resources/public")
+    }
+    manifest {
+        attributes(
+//            'API-Title': IMPLEMENTATION-TITLE,
+//            'API-Artifact-Identifier': ARTIFACT-ID,
+//            'API-Group-Identifier': GROUP-ID,
+                'Implementation-Version': '1.2',
+                'Manifest-Version': '1.0',
+                'Main-Class': 'com.angular.demo.Hello'
+        )}
+}
